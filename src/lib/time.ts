@@ -1,4 +1,3 @@
-
 export const MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
 export function lastDayOfMonth(date: Date) {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -35,4 +34,11 @@ export function timeString(date: Date) {
         hour: '2-digit',
         minute: '2-digit'
     });
+}
+
+export function combineDateTime(date: string, time: string) {
+    const [hours, minutes] = time.split(':').map(Number);
+    const combined = new Date(date);
+    combined.setHours(hours, minutes, 0, 0);
+    return combined;
 }

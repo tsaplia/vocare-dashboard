@@ -9,8 +9,8 @@ import { cn } from '@/lib/utils';
 import { deDateString } from '@/lib/time';
 
 type Props = {
-    date?: Date;
-    setDate: (date: Date) => void;
+    date?: string;
+    setDate: (date: string) => void;
     className?: string;
 };
 
@@ -23,15 +23,15 @@ export const CalendarInput: React.FC<Props> = ({ date, setDate, className }) => 
                         variant={'outline'}
                         className={cn('w-40 pl-3 text-left font-normal', !date && 'text-muted-foreground')}
                     >
-                        {date ? deDateString(date) : <span>Pick a date</span>}
+                        {date ? deDateString(new Date(date)) : <span>Pick a date</span>}
                         <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className='w-auto p-0' align='start'>
                     <Calendar
                         mode='single'
-                        selected={date}
-                        onSelect={(date: Date) => date && setDate(date)}
+                        selected={date ? new Date(date) : undefined}
+                        onSelect={(date: Date) => date && setDate(date.toISOString())}
                         captionLayout='dropdown'
                         required
                     />

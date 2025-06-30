@@ -1,7 +1,6 @@
 import { fakeRange } from '@/lib/fakeDB';
 import { NextRequest, NextResponse } from 'next/server';
 import { FullAppointment } from '@/types/superbase';
-// import { supabase } from '@/lib/supabase';
 
 export async function GET(req: NextRequest) {
     //const { data, error } = await supabase.from('patients').select('*');
@@ -11,4 +10,20 @@ export async function GET(req: NextRequest) {
     const appointments: FullAppointment[] = fakeRange(10, new Date(from), new Date(to));
     appointments.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
     return NextResponse.json(appointments);
+}
+
+export function POST(req: NextRequest) {
+    const data = req.json();
+    console.log(data);
+}
+
+export function DELETE(req: NextRequest) {
+    const data = req.json();
+    console.log(data);
+}
+
+
+export function PUT(req: NextRequest) {
+    const data = req.json();
+    console.log(data);
 }

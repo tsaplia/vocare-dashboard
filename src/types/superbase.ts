@@ -45,10 +45,27 @@ export type Relative = {
 export type AppointmentAssignee = {
     id: UUID;
     // created_at: Timestamp;
-    appointment: UUID | null;
+    appointment: UUID;
     // user: UUID | null;
     user_type: 'relatives' | string;
     user: Relative; // joined on user
+};
+
+export type Appointment = {
+    id?: UUID;
+    // created_at: Timestamp;
+    // updated_at: Timestamp | null;
+    start: Timestamp;
+    end: Timestamp;
+    location?: string;
+    notes?: string;
+    title: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    attachements?: any[] | null;
+    patient_id: UUID;
+    category_id: UUID;
+    activities?: Activity[];
+    assignees?: AppointmentAssignee[];
 };
 
 export type FullAppointment = {
@@ -57,13 +74,13 @@ export type FullAppointment = {
     // updated_at: Timestamp | null;
     start: Timestamp;
     end: Timestamp;
-    location: string | null;
-    notes: string | null;
+    location?: string;
+    notes?: string;
     title: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    attachements: any[] | null;
+    attachements?: any[] | null;
     patient: Patient;
     category: Category;
-    activities: Activity[];
-    assignees: AppointmentAssignee[];
+    activities?: Activity[];
+    assignees?: AppointmentAssignee[];
 };

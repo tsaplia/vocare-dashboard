@@ -64,8 +64,8 @@ export const fakeAppointment = (date: Date): FullAppointment => {
         notes: faker.lorem.sentence(),
         title: faker.lorem.words(3),
         attachements: [],
-        patient,
-        category,
+        patient: patient,
+        category: category,
         activities: Array.from({ length: 2 }).map(() => ({
             id: faker.string.uuid(),
             created_at: faker.date.recent().toISOString(),
