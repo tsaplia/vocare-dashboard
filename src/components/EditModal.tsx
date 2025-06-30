@@ -22,8 +22,8 @@ interface Props {
 function toFormDate(app: FullAppointment): AppointmentFormData {
     return {
         ...app,
-        category_id: app.category.id,
-        patient_id: app.patient.id,
+        category: app.category.id,
+        patient: app.patient.id,
         date: app.start,
         timeTo: timeString(new Date(app.end)),
         timeFrom: timeString(new Date(app.start))
@@ -85,7 +85,7 @@ export const EditModal: React.FC<Props> = ({ children, editData: editData }) => 
                         <Label htmlFor='category'>Kategorie</Label>
                         <Controller
                             control={control}
-                            name='category_id'
+                            name='category'
                             render={({ field }) => (
                                 <OptionInput
                                     value={field.value}
@@ -94,7 +94,7 @@ export const EditModal: React.FC<Props> = ({ children, editData: editData }) => 
                                 />
                             )}
                         />
-                        {errors.category_id && <p className='text-sm text-red-500'>{errors.category_id.message}</p>}
+                        {errors.category && <p className='text-sm text-red-500'>{errors.category.message}</p>}
                     </div>
 
                     <div className='grid gap-3'>
@@ -139,7 +139,7 @@ export const EditModal: React.FC<Props> = ({ children, editData: editData }) => 
                         <Label htmlFor='patient'>Patient</Label>
                         <Controller
                             control={control}
-                            name='patient_id'
+                            name='patient'
                             render={({ field }) => (
                                 <OptionInput
                                     value={field.value}
@@ -148,7 +148,7 @@ export const EditModal: React.FC<Props> = ({ children, editData: editData }) => 
                                 />
                             )}
                         />
-                        {errors.patient_id && <p className='text-sm text-red-500'>{errors.patient_id.message}</p>}
+                        {errors.patient && <p className='text-sm text-red-500'>{errors.patient.message}</p>}
                     </div>
 
                     <div className='grid gap-3'>

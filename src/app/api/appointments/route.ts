@@ -1,29 +1,55 @@
-import { fakeRange } from '@/lib/fakeDB';
 import { NextRequest, NextResponse } from 'next/server';
-import { FullAppointment } from '@/types/superbase';
+import { supabase } from '@/lib/supabase';
+import { dateString } from '@/lib/time';
+import { Appointment } from '@/types/superbase';
 
 export async function GET(req: NextRequest) {
-    //const { data, error } = await supabase.from('patients').select('*');
     const url = new URL(req.url);
-    const from = url.searchParams.get('from') || new Date().toISOString();
-    const to = url.searchParams.get('to') || new Date().toISOString();
-    const appointments: FullAppointment[] = fakeRange(10, new Date(from), new Date(to));
-    appointments.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
-    return NextResponse.json(appointments);
+    const from = url.searchParams.get('from') || dateString(new Date());
+    const to = url.searchParams.get('to') || dateString(new Date());
+    const { data, error } = await supabase
+        .from('appointments')
+        .select(
+            `id,
+            start,
+            end,
+            location,
+            notes,
+            title,
+            patient: patient (id, firstname, lastname ),
+            category:category ( id, label, color)`
+        )
+        .gte('start', from)
+        .lte('end', to);
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    data!.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+    return NextResponse.json(data);
 }
 
-export function POST(req: NextRequest) {
-    const data = req.json();
-    console.log(data);
+export async function POST(req: NextRequest) {
+    const { start, end, location, notes, title, patient, category }: Appointment = await req.json();
+    const { data, error } = await supabase
+        .from('appointments')
+        .insert([{ start, end, location, notes, title, patient, category }])
+        .select();
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(data);
 }
 
-export function DELETE(req: NextRequest) {
-    const data = req.json();
-    console.log(data);
+export async function DELETE(req: NextRequest) {
+    const { id } = await req.json();
+    const { error } = await supabase.from('appointments').delete().eq('id', id);
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ id });
 }
 
-
-export function PUT(req: NextRequest) {
-    const data = req.json();
-    console.log(data);
+export async function PUT(req: NextRequest) {
+    const { start, end, location, notes, title, patient, category, id }: Appointment = await req.json();
+    const { data, error } = await supabase
+        .from('appointments')
+        .update({start, end, location, notes, title, patient, category})
+        .eq('id', id)
+        .select();
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(data);
 }

@@ -13,14 +13,14 @@ export type Activity = {
 export type Patient = {
     id: UUID;
     // created_at: Timestamp;
-    firstname: string | null;
-    lastname: string | null;
-    birth_date: Timestamp | null;
-    care_level: number | null;
-    pronoun: string | null;
-    email: string | null;
-    active: boolean | null;
-    active_since: Timestamp | null;
+    firstname: string;
+    lastname: string;
+    birth_date?: Timestamp;
+    care_level?: number;
+    pronoun?: string;
+    email?: string;
+    active?: boolean;
+    active_since?: Timestamp;
 };
 
 export type Category = {
@@ -28,9 +28,9 @@ export type Category = {
     // created_at: Timestamp;
     // updated_at: Timestamp | null;
     label: string;
-    description: string | null;
-    color: string | null;
-    icon: string | null;
+    description?: string;
+    color: string;
+    icon?: string;
 };
 
 export type Relative = {
@@ -62,8 +62,8 @@ export type Appointment = {
     title: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     attachements?: any[] | null;
-    patient_id: UUID;
-    category_id: UUID;
+    patient: UUID;
+    category: UUID;
     activities?: Activity[];
     assignees?: AppointmentAssignee[];
 };

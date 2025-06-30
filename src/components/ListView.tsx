@@ -26,6 +26,7 @@ export const ListView: React.FC = () => {
         });
     }, [date]);
 
+
     useEffect(() => {
         const _filtered = dayApps.map(({ date, apps }) => ({
             date,

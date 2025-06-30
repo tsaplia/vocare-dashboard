@@ -1,5 +1,4 @@
 import { Appointment, Category, FullAppointment, Patient } from '@/types/superbase';
-import { dateString } from './time';
 import { UUID } from '@/types/superbase';
 
 export const Api = {
@@ -12,7 +11,11 @@ export const Api = {
 };
 
 async function getAppointments(start: Date, end: Date): Promise<FullAppointment[]> {
-    return await request(`/api/appointments?from=${dateString(start)}&to=${dateString(end)}`);
+    const from = new Date(start);
+    const to = new Date(end);
+    from.setHours(0, 0, 0, 0);
+    to.setHours(23, 59, 59, 999);
+    return await request(`/api/appointments?from=${from.toISOString()}&to=${to.toISOString()}`);
 }
 
 async function getAllPatients(): Promise<Patient[]> {
