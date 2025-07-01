@@ -42,3 +42,9 @@ export function combineDateTime(date: string, time: string) {
     combined.setHours(hours, minutes, 0, 0);
     return combined;
 }
+
+export function getMonthRange(date: Date): [Date, Date] {
+    const start = firstDayOfWeek(firstDayOfMonth(date));
+    const end = lastDayOfWeek(lastDayOfMonth(date));
+    return [start, end];
+}

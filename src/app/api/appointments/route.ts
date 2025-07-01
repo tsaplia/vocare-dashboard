@@ -17,10 +17,10 @@ export async function GET(req: NextRequest) {
             notes,
             title,
             patient: patient (id, firstname, lastname ),
-            category:category ( id, label, color)`
+            category:category (id, label, color)`
         )
         .gte('start', from)
-        .lte('end', to);
+        .lte('start', to);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     data!.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
     return NextResponse.json(data);

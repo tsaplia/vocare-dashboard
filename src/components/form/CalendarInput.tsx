@@ -29,6 +29,7 @@ export const CalendarInput: React.FC<Props> = ({ date, setDate, className }) => 
                 </PopoverTrigger>
                 <PopoverContent className='w-auto p-0' align='start'>
                     <Calendar
+                        weekStartsOn={1}
                         mode='single'
                         selected={date ? new Date(date) : undefined}
                         onSelect={(date: Date) => date && setDate(date.toISOString())}

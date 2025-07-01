@@ -91,6 +91,7 @@ export const EditModal: React.FC<Props> = ({ children, editData: editData }) => 
                                     value={field.value}
                                     onValueChange={field.onChange}
                                     options={categoryOptions}
+                                    optionsOnly={true}
                                 />
                             )}
                         />
@@ -145,6 +146,7 @@ export const EditModal: React.FC<Props> = ({ children, editData: editData }) => 
                                     value={field.value}
                                     onValueChange={field.onChange}
                                     options={patientOptions}
+                                    optionsOnly={true}
                                 />
                             )}
                         />

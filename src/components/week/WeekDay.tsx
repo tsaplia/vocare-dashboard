@@ -17,7 +17,7 @@ export const WeekDay: React.FC<Props> = ({ appointments: app }) => {
             {app.map((a) => (
                 <div
                     key={a.id}
-                    className='w-full grid col-start-1 col-end-1 overflow-y-clip'
+                    className='w-full grid col-start-1 col-end-1 overflow-y-auto'
                     style={{ gridRowStart: getRowStart(new Date(a.start)), gridRowEnd: getRowStart(new Date(a.end)) }}
                 >
                     <Appointment key={a.id} appointment={a} className='h-full' />

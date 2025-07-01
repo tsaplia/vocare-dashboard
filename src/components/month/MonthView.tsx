@@ -1,14 +1,11 @@
 'use client';
 
 import { firstDayOfMonth, firstDayOfWeek, lastDayOfMonth, lastDayOfWeek, MILLIS_PER_DAY, sameDay } from '@/lib/time';
-import { FullAppointment } from '@/types/superbase';
-import React, { ReactNode, useEffect, useMemo } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import MonthDay from './MonthDay';
 import MonthSide from './MonthSide';
-import { Api } from '@/lib/api';
 import { useCalendarStore } from '@/stores/calendar';
-import { useFiltered } from '@/app/hooks/filter';
-
+import { useFiltered } from '@/hooks/filter';
 
 function deWeekDay(date: Date) {
     return date.toLocaleDateString('de-DE', { weekday: 'long' });
@@ -16,20 +13,18 @@ function deWeekDay(date: Date) {
 
 export const MonthView: React.FC = () => {
     const date = useCalendarStore(state => state.date);
-    const start = useMemo(() => firstDayOfWeek(firstDayOfMonth(date)), [date]);
-    const end = useMemo(() => lastDayOfWeek(lastDayOfMonth(date)), [date]);
+    const start = firstDayOfWeek(firstDayOfMonth(date)).getTime();
+    const end = lastDayOfWeek(lastDayOfMonth(date)).getTime();
 
-    const [appointments, setAppointments] = React.useState<FullAppointment[]>([]);
-    const [selected, setSelected] = React.useState<number>(date.valueOf());
-    const filtered = useFiltered(appointments);
-
+    const [selected, setSelected] = React.useState<number>(date.getTime());
+    const filtered = useFiltered();
 
     useEffect(() => {
-        Api.getAppointments(start, end).then(setAppointments);
+        console.log('start', start, 'end', end);
     }, [start, end]);
 
     const days: ReactNode[] = [];
-    for (let tstamp = start.valueOf(); tstamp <= end.valueOf(); tstamp += MILLIS_PER_DAY) {
+    for (let tstamp = start; tstamp <= end; tstamp += MILLIS_PER_DAY) {
         const day = new Date(tstamp);
         days.push(
             <MonthDay

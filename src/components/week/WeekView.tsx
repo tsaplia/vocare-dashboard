@@ -1,32 +1,21 @@
 'use client';
-import { firstDayOfWeek, lastDayOfWeek, sameDay, deDateString, MILLIS_PER_DAY } from '@/lib/time';
-import { FullAppointment } from '@/types/superbase';
-import React, { ReactNode, useEffect, useMemo } from 'react';
+import { firstDayOfWeek, sameDay, deDateString, MILLIS_PER_DAY } from '@/lib/time';
+import React, { ReactNode } from 'react';
 import WeekDay from './WeekDay';
 import WeekGreed from './WeekGrid';
-import { Api } from '@/lib/api';
 import { useCalendarStore } from '@/stores/calendar';
-import { useFiltered } from '@/app/hooks/filter';
-
+import { useFiltered } from '@/hooks/filter';
 
 export const WeekView: React.FC = () => {
     const date = useCalendarStore(state => state.date);
-    const start = useMemo(() => firstDayOfWeek(date), [date]);
-    const end = useMemo(() => lastDayOfWeek(date), [date]);
+    const start = firstDayOfWeek(date).getTime();
 
-    const [appointments, setAppointments] = React.useState<FullAppointment[]>([]);
-    const filtered = useFiltered(appointments);
-
-    useEffect(() => {
-        Api.getAppointments(start, end).then(setAppointments);
-    }, [start, end]);
+    const filtered = useFiltered();
 
     const days: ReactNode[] = [];
-    for (let tstamp = start.valueOf(); tstamp <= end.valueOf(); tstamp += MILLIS_PER_DAY) {
-        const day = new Date(tstamp);
-        days.push(
-            <WeekDay appointments={filtered.filter(a => sameDay(new Date(a.start), day))} key={tstamp} date={day} />
-        );
+    for (let i = 0; i < 7; i++) {
+        const day = new Date(date.valueOf() + i * MILLIS_PER_DAY);
+        days.push(<WeekDay appointments={filtered.filter(a => sameDay(new Date(a.start), day))} key={i} date={day} />);
     }
     return (
         <div className='pl-16'>

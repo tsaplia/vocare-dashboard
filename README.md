@@ -2,6 +2,8 @@
 
 This is a simple appointment management app built with **Next.js** and **Supabase** as part of the **Vocare tech challenge**.
 
+> ⚠️ This calendar only supports events that **start and end on the same date**. Events spanning multiple days are not supported.
+
 ## 🔗 Live Demo
 
 [https://tsaplia-vocare-dashboard.vercel.app](https://tsaplia-vocare-dashboard.vercel.app)
